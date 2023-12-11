@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:park_in_angers/ui/screens/map.dart';
 
 void main() => runApp(const MyApp());
 
@@ -63,12 +64,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           shadowColor: Colors.transparent,
           margin: const EdgeInsets.all(8.0),
           child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'La carte',
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
+            child: Map(),
           ),
         ),
 
