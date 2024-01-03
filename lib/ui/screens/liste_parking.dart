@@ -56,12 +56,18 @@ class _ListeParkingState extends State<ListeParking> {
   Widget buildParkingTile(Parking parking) {
     return ListTile(
       title: Text(parking.nom),
-      subtitle: Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
+      subtitle: Row(
+        children: [
+          Icon(Icons.local_parking_sharp, size: 24), // Ajout de l'icône de voiture
+          SizedBox(width: 8),
+          Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
+        ],
+      ),
       // Ajoutez d'autres widgets pour afficher d'autres informations du parking
       onTap: () {
         Navigator.of(context).pushNamed(
-            '/info_parking',
-            arguments: parking
+          '/info_parking',
+          arguments: parking,
         );
 
         // Ajoutez ici le code à exécuter lorsque l'utilisateur appuie sur la tuile

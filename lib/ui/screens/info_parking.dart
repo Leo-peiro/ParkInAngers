@@ -11,7 +11,7 @@ class InfoParking extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Informations sur le parking'),
+        title: const Text('Informations sur le parking'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -20,36 +20,47 @@ class InfoParking extends StatelessWidget {
           children: [
             Text(
               'Nom du parking: ${parking.nom}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const Divider(height: 16, color: Colors.grey),
             Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
-            SizedBox(height: 16),
+            const Divider(height: 16, color: Colors.grey),
             Text('Adresse : ${parking.adresse}'),
-            SizedBox(height: 16),
+            const Divider(height: 16, color: Colors.grey),
+
             Visibility(
-              visible: parking.horaires?.heureOuverture != null,
+              visible: parking.horaires?.heureOuverture != null && parking.horaires?.heureFermeture != null,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Heure ouverture : ${parking.horaires?.heureOuverture}'),
-                  SizedBox(height: 16),
-                ],
-              ),
-            ),
-            Visibility(
-              visible: parking.horaires?.heureFermeture != null,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Heure fermeture : ${parking.horaires?.heureFermeture}'),
-                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const Icon(Icons.event_available_sharp, size: 24),
+                      const SizedBox(width: 8),
+                      Text('Heure ouverture : ${parking.horaires?.heureOuverture}'),
+                    ],
+                  ),
+                  const Divider(height: 16, color: Colors.grey),
+                  Row(
+                    children: [
+                      const Icon(Icons.event_busy_sharp, size: 24),
+                      const SizedBox(width: 8),
+                      Text('Heure fermeture : ${parking.horaires?.heureFermeture}'),
+                    ],
+                  ),
                 ],
               ),
             ),
             Visibility(
               visible: parking.horaires?.heureOuverture == null && parking.horaires?.heureFermeture == null,
-              child: Text('Accessible 24/24'),
+              child: const Row(
+                children: [
+                  Icon(Icons.event_available_sharp, size: 24),
+                  // Icon(Icons.loop_sharp, size: 24),
+                  SizedBox(width: 8),
+                  Text('Accessible 24/24'),
+                ],
+              ),
             ),
             // Ajoutez d'autres informations à afficher ici
           ],
