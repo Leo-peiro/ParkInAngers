@@ -27,10 +27,30 @@ class InfoParking extends StatelessWidget {
             SizedBox(height: 16),
             Text('Adresse : ${parking.adresse}'),
             SizedBox(height: 16),
-            Text('Heure ouverture : ${parking.horaires?.heureOuverture}'),
-            SizedBox(height: 16),
-            Text('Heure fermeture : ${parking.horaires?.heureFermeture}'),
-            SizedBox(height: 16),
+            Visibility(
+              visible: parking.horaires?.heureOuverture != null,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Heure ouverture : ${parking.horaires?.heureOuverture}'),
+                  SizedBox(height: 16),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: parking.horaires?.heureFermeture != null,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Heure fermeture : ${parking.horaires?.heureFermeture}'),
+                  SizedBox(height: 16),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: parking.horaires?.heureOuverture == null && parking.horaires?.heureFermeture == null,
+              child: Text('Accessible 24/24'),
+            ),
             // Ajoutez d'autres informations à afficher ici
           ],
         ),
