@@ -65,7 +65,7 @@ class ParkingRepository {
                   );
 
                   final Parking parkingFinal = Parking.fromGeoJson(
-                    feature,
+                    feature2,
                     parking.nom,
                     parking.npPlacesDisponiblesVoitures,
                     horaires,
