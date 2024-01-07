@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:park_in_angers/ui/screens/map.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:park_in_angers/ui/screens/map_card.dart';
 
 void main() => runApp(const MyApp());
 
@@ -64,7 +65,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           shadowColor: Colors.transparent,
           margin: const EdgeInsets.all(8.0),
           child: SizedBox.expand(
-            child: Map(),
+            child: MapCard(),
           ),
         ),
 
