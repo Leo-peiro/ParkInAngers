@@ -73,7 +73,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
         ),
 
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               const Card(
