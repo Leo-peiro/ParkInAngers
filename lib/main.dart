@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/router.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:park_in_angers/ui/screens/liste_parking.dart';
 import 'package:park_in_angers/ui/screens/map_card.dart';
 
 void main() => runApp(const MyApp());
@@ -71,69 +72,37 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
         ),
 
-        const Padding(
-          padding: EdgeInsets.all(8.0),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Card(
+              const Card(
                 child: ListTile(
                   leading: Icon(Icons.notifications_sharp),
                   title: Text('Notification 1'),
-                  subtitle: Text('This is a notification'),
+                  subtitle: Text('Afficher les parking ici, sinon afficher un bouton avec un + qui redirige vers la liste de parking'),
                 ),
               ),
-              Card(
+              const Card(
                 child: ListTile(
                   leading: Icon(Icons.notifications_sharp),
                   title: Text('Notification 2'),
                   subtitle: Text('This is a notification'),
                 ),
               ),
+              ElevatedButton(onPressed: redirect, child: const Icon(Icons.add_location_alt_outlined, size: 35)),
+
             ],
           ),
         ),
-
-        ListView.builder(
-          reverse: true,
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Hello',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(color: theme.colorScheme.onPrimary),
-                  ),
-                ),
-              );
-            }
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  'Hi!',
-                  style: theme.textTheme.bodyLarge!
-                      .copyWith(color: theme.colorScheme.onPrimary),
-                ),
-              ),
-            );
-          },
-        ),
+        const ListeParking(),
       ][currentPageIndex],
     );
+  }
+
+  void redirect() {
+    setState(() {
+      currentPageIndex = 2;
+    });
   }
 }
