@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
 
+import '../../composant/filter_parking.dart';
+
 class ListeParking extends StatefulWidget {
   const ListeParking({Key? key}) : super(key: key);
 
@@ -37,9 +39,26 @@ class _ListeParkingState extends State<ListeParking> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des parkings'),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 46.0),
+            //Création du bouton filtre
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const FilterSelectionParking();
+                  },
+                );
+              },
+              child: const Text('Filtre'),
+            ),
+          ),
+        ],
       ),
       body: Container(
-        child: parkings.isNotEmpty // Vérifiez si la liste n'est pas vide
+        child: parkings.isNotEmpty // Vérifie si la liste n'est pas vide
             ? ListView.builder(
           itemCount: parkings.length,
           itemBuilder: (context, index) {
@@ -63,14 +82,11 @@ class _ListeParkingState extends State<ListeParking> {
           Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
         ],
       ),
-      // Ajoutez d'autres widgets pour afficher d'autres informations du parking
       onTap: () {
         Navigator.of(context).pushNamed(
           '/info_parking',
           arguments: parking,
         );
-
-        // Ajoutez ici le code à exécuter lorsque l'utilisateur appuie sur la tuile
       },
     );
   }

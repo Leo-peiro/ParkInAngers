@@ -11,13 +11,15 @@ import '../../models/parking.dart';
 import '../../repositories/parking_repository.dart';
 
 class MapCard extends StatefulWidget {
+  const MapCard({super.key});
+
   @override
   _MapCardState createState() => _MapCardState();
 }
 
 class _MapCardState extends State<MapCard> {
   final ParkingRepository parkingRepository = ParkingRepository();
-  late List<ParkingMarker> parkings = [];
+  late List<ParkingMarker> parkings = []; //Liste des parkings qui seront sur la carte
 
   @override
   void initState() {
@@ -55,27 +57,28 @@ class _MapCardState extends State<MapCard> {
 
   @override
   Widget build(BuildContext context) {
-    final double _panelMinSize = 70.0;
-    final double _panelMaxSize = MediaQuery.of(context).size.height / 2;
+    const double panelMinSize = 70.0;
+    final double panelMaxSize = MediaQuery.of(context).size.height / 2;
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: WeSlide(
-        panelMinSize: _panelMinSize,
-        panelMaxSize: _panelMaxSize,
+        panelMinSize: panelMinSize,
+        panelMaxSize: panelMaxSize,
         body: FlutterMap(
-          options: MapOptions(
+          options: const MapOptions(
             initialCenter: LatLng(47.4666700, -0.5500000),
             initialZoom: 10.6,
           ),
           children: [
             TileLayer(
               urlTemplate:
-              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', // l'URL permettant d'afficher la carte
               subdomains: const ['a', 'b', 'c'],
               keepBuffer: 20,
               tileProvider: NetworkTileProvider(),
             ),
+            //Les markers sur la carte pour indiquer l'emplacement des parkings
             MarkerLayer(
               markers: parkings
                   .asMap()
@@ -112,41 +115,42 @@ class _MapCardState extends State<MapCard> {
               ))
                   .toList(),
             ),
+            //Pour afficher la position actuelle de l'utilisateur
             CurrentLocationLayer(),
           ],
         ),
-        panel: _selectedParking.parkingInfo.nom.isNotEmpty
+        panel: _selectedParking.parkingInfo.nom.isNotEmpty //Si pas de parking sélectionné alors pas de panneau
             ? Container(
-          color: Colors.lightBlueAccent.shade100,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.vertical_align_bottom_rounded),
-                SizedBox(height: 28),
-                Text(
-                  "Plus d'Informations sur le Parking Sélectionné",
-                  style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
-                SizedBox(height: 18),
-                AffichageInfoParking(parking: _selectedParking.parkingInfo),
-              ],
-            ),
-          ),
-        ) : SizedBox.shrink(),
-        panelHeader: _selectedParking.parkingInfo.nom.isNotEmpty
+              color: Colors.lightBlueAccent.shade100,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.vertical_align_bottom_rounded),
+                    const SizedBox(height: 28),
+                    const Text(
+                      "Plus d'Informations sur le Parking Sélectionné",
+                      style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
+                    const SizedBox(height: 18),
+                    AffichageInfoParking(parking: _selectedParking.parkingInfo),
+                  ],
+                ),
+              ),
+            ) : const SizedBox.shrink(),
+        panelHeader: _selectedParking.parkingInfo.nom.isNotEmpty //Si pas de parking sélectionné alors pas de panneau
             ? Container(
-          height: _panelMinSize,
-          color: Colors.white,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.vertical_align_top_rounded),
-                Text(_selectedParking.parkingInfo.nom),
-              ],
-            ),
-          ),
-        ): SizedBox.shrink(),
+              height: panelMinSize,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.vertical_align_top_rounded),
+                    Text(_selectedParking.parkingInfo.nom),
+                  ],
+                ),
+              ),
+            ): const SizedBox.shrink(),
       ),
     );
   }

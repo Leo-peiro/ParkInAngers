@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/parking.dart';
@@ -7,7 +6,7 @@ import '../models/parking.dart';
 class AffichageInfoParking extends StatelessWidget {
   final Parking parking;
 
-  AffichageInfoParking({required this.parking});
+  const AffichageInfoParking({super.key, required this.parking});
 
   @override
   Widget build(BuildContext context) {
