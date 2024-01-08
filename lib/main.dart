@@ -101,9 +101,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
   }
 
   void redirect() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ListeParking()),
-    );
+    setState(() {
+      currentPageIndex = 2;
+    });
   }
 }
