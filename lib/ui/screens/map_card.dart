@@ -6,6 +6,7 @@ import 'package:park_in_angers/models/horaires.dart';
 import 'package:park_in_angers/models/tarifs.dart';
 import 'package:we_slide/we_slide.dart';
 
+import '../../composant/affichage_info_parking.dart';
 import '../../models/parking.dart';
 import '../../repositories/parking_repository.dart';
 
@@ -25,7 +26,6 @@ class _MapCardState extends State<MapCard> {
   }
 
   late ParkingMarker _selectedParking = ParkingMarker(Parking("Nom du parking", 10, 0, 0, 0, Horaires(true, "8:00","23:00","Férié","Pas de fermeture"),Tarifs(2,3,4,6,16),47.4697, -0.5560,"Rue de la Roë"));
-  //= ParkingMarker("Rue de la Roë", LatLng(47.4697, -0.5560));
 
   //void setFavoriteParking(ParkingMarker favoriteParking) {
    // setState(() {
@@ -124,53 +124,10 @@ class _MapCardState extends State<MapCard> {
                 Icon(Icons.vertical_align_bottom_rounded),
                 SizedBox(height: 28),
                 Text(
-                  "Plus d'Information du Parking Sélectionné",
+                  "Plus d'Informations sur le Parking Sélectionné",
                   style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
                 SizedBox(height: 18),
-                Text(
-                  'Nom du parking: ${_selectedParking.parkingInfo.nom}',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const Divider(height: 16, color: Colors.grey),
-                Text('Places disponibles: ${_selectedParking.parkingInfo.npPlacesDisponiblesVoitures}'),
-                const Divider(height: 16, color: Colors.grey),
-                Text('Adresse : ${_selectedParking.parkingInfo.adresse.toString()}'),
-                const Divider(height: 16, color: Colors.grey),
-
-                Visibility(
-                  visible: _selectedParking.parkingInfo.horaires?.heureOuverture != null && _selectedParking.parkingInfo.horaires?.heureFermeture != null,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.event_available_sharp, size: 24),
-                          const SizedBox(width: 8),
-                          Text('Heure ouverture : ${_selectedParking.parkingInfo.horaires?.heureOuverture}'),
-                        ],
-                      ),
-                      const Divider(height: 16, color: Colors.grey),
-                      Row(
-                        children: [
-                          const Icon(Icons.event_busy_sharp, size: 24),
-                          const SizedBox(width: 8),
-                          Text('Heure fermeture : ${_selectedParking.parkingInfo.horaires?.heureFermeture}'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: _selectedParking.parkingInfo.horaires?.heureOuverture == null && _selectedParking.parkingInfo.horaires?.heureFermeture == null,
-                  child: const Row(
-                    children: [
-                      Icon(Icons.event_available_sharp, size: 24),
-                      // Icon(Icons.loop_sharp, size: 24),
-                      SizedBox(width: 8),
-                      Text('Accessible 24/24'),
-                    ],
-                  ),
-                ),
+                AffichageInfoParking(parking: _selectedParking.parkingInfo),
               ],
             ),
           ),
