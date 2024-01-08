@@ -62,10 +62,24 @@ class InfoParking extends StatelessWidget {
                 ],
               ),
             ),
-            // Ajoutez d'autres informations à afficher ici
+
+            // ajouter une partie logique : si le parking fait parti des favoris => afficher bouton pour le supprimer des favoris; et l'inverse
+            const Divider(height: 16, color: Colors.grey),
+            ElevatedButton(onPressed: add, child: const Icon(Icons.add_location_alt_outlined, size: 35)),
+            const Divider(height: 16, color: Colors.grey),
+            ElevatedButton(onPressed: delete, child: const Icon(Icons.highlight_remove_sharp, size: 35)),
           ],
         ),
       ),
     );
+  }
+
+  void add() {
+    // ajouter le parking en fav
+    print('added');
+  }
+  void delete() {
+    // supprimer le parking des fav
+    print('deleted');
   }
 }

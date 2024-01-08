@@ -72,29 +72,38 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
         ),
 
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Card(
+              const Card(
                 child: ListTile(
                   leading: Icon(Icons.notifications_sharp),
                   title: Text('Notification 1'),
-                  subtitle: Text('This is a notification'),
+                  subtitle: Text('Afficher les parking ici, sinon afficher un bouton avec un + qui redirige vers la liste de parking'),
                 ),
               ),
-              Card(
+              const Card(
                 child: ListTile(
                   leading: Icon(Icons.notifications_sharp),
                   title: Text('Notification 2'),
                   subtitle: Text('This is a notification'),
                 ),
               ),
+              ElevatedButton(onPressed: redirect, child: const Icon(Icons.add_location_alt_outlined, size: 35)),
+
             ],
           ),
         ),
         const ListeParking(),
       ][currentPageIndex],
+    );
+  }
+
+  void redirect() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ListeParking()),
     );
   }
 }
