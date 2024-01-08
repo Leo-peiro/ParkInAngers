@@ -14,39 +14,18 @@ class ParkingRepository {
     final List<Parking> listeParkingFinale = [];
     try {
       final Response response = await get(Uri.parse('https://data.angers.fr/api/explore/v2.1/catalog/datasets/parking-angers/records?limit=20'));
-      print(response);
       if (response.statusCode == 200) {
-        print("status 200");
-
         final Map<String, dynamic> json = jsonDecode(response.body);
-        print("json : ");
-        print(json);
         if (json.containsKey("results")) {
-          print("dans le if");
           final List<dynamic> features = json['results'];
-          print(features);
           for (Map<String, dynamic> feature in features) {
-            print("dans le for map string dynamic");
-            print(feature);
             final parking = Parking.fromJson(feature);
-            print("fromJson passed");
-            // final String nomDuParking = "'${parking.nom}'";
             final String nomDuParking = parking.nom;
-
-            print(nomDuParking);
-
             final Response response2 = await get(Uri.parse('https://data.angers.fr/api/explore/v2.1/catalog/datasets/angers_stationnement/records?where=id_parking="${nomDuParking}"&limit=20'));
-            print('response2 obtenue');
             if (response2.statusCode == 200) {
-              print('status 2OO');
-
               final Map<String, dynamic> json2 = jsonDecode(response2.body);
-              print("json2");
-              print(json2);
               if (json2.containsKey("results")) {
                 final List<dynamic> features2 = json2['results'];
-                print("features2");
-                print(features2);
                 for (Map<String, dynamic> feature2 in features2) {
                   final Tarifs tarifs = Tarifs(
                     feature2['tarif_1h'],
