@@ -25,7 +25,7 @@ class _MapCardState extends State<MapCard> {
     fetchParkingData();
   }
 
-  late ParkingMarker _selectedParking = ParkingMarker(Parking("Nom du parking", 10, 0, 0, 0, Horaires(true, "8:00","23:00","Férié","Pas de fermeture"),Tarifs(2,3,4,6,16),47.4697, -0.5560,"Rue de la Roë"));
+  late ParkingMarker _selectedParking = ParkingMarker(Parking("", 0, 0, 0, 0, Horaires(true, "","","",""),Tarifs(0,0,0,0,0),0, 0,""));
 
   //void setFavoriteParking(ParkingMarker favoriteParking) {
    // setState(() {
@@ -33,9 +33,9 @@ class _MapCardState extends State<MapCard> {
    // });
   //}
 
-  void setSelectedParking(ParkingMarker favoriteParking) {
+  void setSelectedParking(ParkingMarker selectedParking) {
      setState(() {
-       _selectedParking = favoriteParking;
+       _selectedParking = selectedParking;
     });
   }
 
@@ -115,7 +115,8 @@ class _MapCardState extends State<MapCard> {
             CurrentLocationLayer(),
           ],
         ),
-        panel: Container(
+        panel: _selectedParking.parkingInfo.nom.isNotEmpty
+            ? Container(
           color: Colors.lightBlueAccent.shade100,
           child: Center(
             child: Column(
@@ -131,8 +132,9 @@ class _MapCardState extends State<MapCard> {
               ],
             ),
           ),
-        ),
-        panelHeader: Container(
+        ) : SizedBox.shrink(),
+        panelHeader: _selectedParking.parkingInfo.nom.isNotEmpty
+            ? Container(
           height: _panelMinSize,
           color: Colors.white,
           child: Center(
@@ -144,7 +146,7 @@ class _MapCardState extends State<MapCard> {
               ],
             ),
           ),
-        ),
+        ): SizedBox.shrink(),
       ),
     );
   }
