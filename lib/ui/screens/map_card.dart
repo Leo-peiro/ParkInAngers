@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:park_in_angers/models/horaires.dart';
+import 'package:park_in_angers/models/tarifs.dart';
 import 'package:we_slide/we_slide.dart';
+
+import '../../models/parking.dart';
+import '../../repositories/parking_repository.dart';
 
 class MapCard extends StatefulWidget {
   @override
@@ -10,24 +15,46 @@ class MapCard extends StatefulWidget {
 }
 
 class _MapCardState extends State<MapCard> {
-  List<AdresseMarker> adressesAngers = [
-    AdresseMarker("Rue de la Roë", LatLng(47.4697, -0.5560)),
-    AdresseMarker("Boulevard du Roi René", LatLng(47.4721, -0.5475)),
-    AdresseMarker("Avenue Montaigne", LatLng(47.4642, -0.5511)),
-  ];
+  final ParkingRepository parkingRepository = ParkingRepository();
+  late List<ParkingMarker> parkings = [];
 
-  late AdresseMarker _favoriteParking =
-  AdresseMarker("Rue de la Roë", LatLng(47.4697, -0.5560));
+  @override
+  void initState() {
+    super.initState();
+    fetchParkingData();
+  }
 
-  void setFavoriteParking(AdresseMarker favoriteParking) {
-    setState(() {
-      _favoriteParking = favoriteParking;
+  late ParkingMarker _selectedParking = ParkingMarker(Parking("Nom du parking", 10, 0, 0, 0, Horaires(true, "8:00","23:00","Férié","Pas de fermeture"),Tarifs(2,3,4,6,16),47.4697, -0.5560,"Rue de la Roë"));
+  //= ParkingMarker("Rue de la Roë", LatLng(47.4697, -0.5560));
+
+  //void setFavoriteParking(ParkingMarker favoriteParking) {
+   // setState(() {
+   //   _favoriteParking = favoriteParking;
+   // });
+  //}
+
+  void setSelectedParking(ParkingMarker favoriteParking) {
+     setState(() {
+       _selectedParking = favoriteParking;
     });
+  }
+
+
+  // Fonction pour récupérer les données et mettre à jour l'état
+  Future<void> fetchParkingData() async {
+    try {
+      final List<Parking> parkingList = await parkingRepository.fetchAllParking();
+      setState(() {
+        parkings = parkingList.map((parking) => ParkingMarker(parking)).toList();
+      });
+    } catch (e) {
+      // Gérez les erreurs ici
+      print('Erreur lors de la récupération des données : $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final _colorScheme = Theme.of(context).colorScheme;
     final double _panelMinSize = 70.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 2;
 
@@ -38,54 +65,37 @@ class _MapCardState extends State<MapCard> {
         panelMaxSize: _panelMaxSize,
         body: FlutterMap(
           options: MapOptions(
-            center: LatLng(47.4666700, -0.5500000),
-            zoom: 10.6,
+            initialCenter: LatLng(47.4666700, -0.5500000),
+            initialZoom: 10.6,
           ),
           children: [
             TileLayer(
               urlTemplate:
-              'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
               subdomains: const ['a', 'b', 'c'],
               keepBuffer: 20,
               tileProvider: NetworkTileProvider(),
             ),
             MarkerLayer(
-              markers: adressesAngers
+              markers: parkings
                   .asMap()
                   .entries
                   .map((entry) => Marker(
-                point: entry.value.position,
+                alignment: Alignment.topCenter,
+                point: LatLng(entry.value.parkingInfo.latitudeY!.toDouble(), entry.value.parkingInfo.longitudeX!.toDouble()),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      for (var other in adressesAngers) {
+                      for (var other in parkings) {
                         other.isSelected = false;
                       }
                       entry.value.isSelected = !entry.value.isSelected;
 
-                      if (_favoriteParking == entry.value ||
-                          !_favoriteParking.isSelected) {
-                        setFavoriteParking(entry.value);
+                      if (_selectedParking == entry.value ||
+                          !_selectedParking.isSelected) {
+                        setSelectedParking(entry.value);
                       }
                     });
-
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text("Nom de la rue"),
-                          content: Text(entry.value.name),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Fermer'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
                   },
                   child: AnimatedContainer(
                     alignment: Alignment.center,
@@ -106,14 +116,61 @@ class _MapCardState extends State<MapCard> {
           ],
         ),
         panel: Container(
-          color: Colors.lightBlueAccent,
+          color: Colors.lightBlueAccent.shade100,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Information de votre Parking Favoris"),
-                Text(_favoriteParking.name),
-                Text(_favoriteParking.position.toString()),
+                Icon(Icons.vertical_align_bottom_rounded),
+                SizedBox(height: 28),
+                Text(
+                  "Plus d'Information du Parking Sélectionné",
+                  style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
+                SizedBox(height: 18),
+                Text(
+                  'Nom du parking: ${_selectedParking.parkingInfo.nom}',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Divider(height: 16, color: Colors.grey),
+                Text('Places disponibles: ${_selectedParking.parkingInfo.npPlacesDisponiblesVoitures}'),
+                const Divider(height: 16, color: Colors.grey),
+                Text('Adresse : ${_selectedParking.parkingInfo.adresse.toString()}'),
+                const Divider(height: 16, color: Colors.grey),
+
+                Visibility(
+                  visible: _selectedParking.parkingInfo.horaires?.heureOuverture != null && _selectedParking.parkingInfo.horaires?.heureFermeture != null,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.event_available_sharp, size: 24),
+                          const SizedBox(width: 8),
+                          Text('Heure ouverture : ${_selectedParking.parkingInfo.horaires?.heureOuverture}'),
+                        ],
+                      ),
+                      const Divider(height: 16, color: Colors.grey),
+                      Row(
+                        children: [
+                          const Icon(Icons.event_busy_sharp, size: 24),
+                          const SizedBox(width: 8),
+                          Text('Heure fermeture : ${_selectedParking.parkingInfo.horaires?.heureFermeture}'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: _selectedParking.parkingInfo.horaires?.heureOuverture == null && _selectedParking.parkingInfo.horaires?.heureFermeture == null,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.event_available_sharp, size: 24),
+                      // Icon(Icons.loop_sharp, size: 24),
+                      SizedBox(width: 8),
+                      Text('Accessible 24/24'),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -121,17 +178,24 @@ class _MapCardState extends State<MapCard> {
         panelHeader: Container(
           height: _panelMinSize,
           color: Colors.white,
-          child: Center(child: Text("Faire glisser vers le haut pour des informations!️")),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.vertical_align_top_rounded),
+                Text(_selectedParking.parkingInfo.nom),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-class AdresseMarker {
-  final String name;
-  final LatLng position;
+class ParkingMarker {
+  final Parking parkingInfo;
   bool isSelected;
 
-  AdresseMarker(this.name, this.position, {this.isSelected = false});
+  ParkingMarker(this.parkingInfo, {this.isSelected = false});
 }
