@@ -5,8 +5,9 @@ import '../models/parking.dart';
 
 class AffichageInfoParking extends StatelessWidget {
   final Parking parking;
+  final Color color;
 
-  const AffichageInfoParking({super.key, required this.parking});
+  const AffichageInfoParking({super.key, required this.parking, this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class AffichageInfoParking extends StatelessWidget {
   Widget _buildText(String text, {double? fontSize, FontWeight? fontWeight}) {
     return Text(
       text,
-      style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+      style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color),
     );
   }
 
@@ -52,9 +53,9 @@ class AffichageInfoParking extends StatelessWidget {
   Widget _buildIconText(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, size: 24),
+        Icon(icon, size: 24, color: color,),
         const SizedBox(width: 8),
-        Text(text),
+        Text(text, style: TextStyle(color: color),),
       ],
     );
   }

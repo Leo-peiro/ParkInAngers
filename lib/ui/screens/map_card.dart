@@ -121,18 +121,19 @@ class _MapCardState extends State<MapCard> {
         ),
         panel: _selectedParking.parkingInfo.nom.isNotEmpty //Si pas de parking sélectionné alors pas de panneau
             ? Container(
-              color: Colors.lightBlueAccent.shade100,
+              color: Colors.lightBlueAccent,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Icon(Icons.vertical_align_bottom_rounded),
-                    const SizedBox(height: 28),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    const Icon(Icons.vertical_align_bottom_rounded,color: Colors.white),
+                    const Padding(padding: EdgeInsets.only(top: 28)),
                     const Text(
                       "Plus d'Informations sur le Parking Sélectionné",
-                      style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
+                      style: TextStyle(color: Colors.white,fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
                     const SizedBox(height: 18),
-                    AffichageInfoParking(parking: _selectedParking.parkingInfo),
+                    AffichageInfoParking(parking: _selectedParking.parkingInfo, color: Colors.white),
                   ],
                 ),
               ),
