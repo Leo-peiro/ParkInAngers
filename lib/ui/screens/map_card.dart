@@ -146,7 +146,7 @@ class _MapCardState extends State<MapCard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.vertical_align_top_rounded),
+                    const Icon(Icons.vertical_align_top_rounded),
                     Text(_selectedParking.parkingInfo.nom),
                   ],
                 ),

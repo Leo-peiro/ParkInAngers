@@ -137,13 +137,14 @@ class _ListeParkingState extends State<ListeParking> {
         children: [
           Row(
             children: [
-              Icon(Icons.local_parking_sharp, size: 24), // Ajout de l'icône de voiture
-              SizedBox(width: 8),
+              const Icon(Icons.local_parking_sharp, size: 24), // Ajout de l'icône de voiture
+              const SizedBox(width: 8),
               Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
             ],
           ),
           Row(
             children: [
+              const Padding(padding: EdgeInsets.only(left: 32)),
               Text(latitude!=0?'Se situe à  ${(calculeDistance(latitude, longitude, parking.latitudeY!.toDouble(),parking.longitudeX!.toDouble())).toStringAsFixed(3)}km de vous':'Problème de localisation'),
             ],
           ),
