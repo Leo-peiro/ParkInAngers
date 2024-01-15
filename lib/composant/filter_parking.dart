@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
 
 class FilterSelectionParking extends StatefulWidget {
-  const FilterSelectionParking({super.key});
+  final bool checkBoxOuvert;
+  final bool checkBoxDispo;
+  final bool checkBoxGratuit;
+
+  const FilterSelectionParking({
+    Key? key,
+    required this.checkBoxOuvert,
+    required this.checkBoxDispo,
+    required this.checkBoxGratuit,
+  }) : super(key: key);
 
   @override
-  _FilterSelectionParkingState createState() => _FilterSelectionParkingState();
+  FilterSelectionParkingState createState() => FilterSelectionParkingState();
 }
 
-class _FilterSelectionParkingState extends State<FilterSelectionParking> {
+class FilterSelectionParkingState extends State<FilterSelectionParking> {
   bool checkBoxOuvert = false;
   bool checkBoxDispo = false;
   bool checkBoxGratuit = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkBoxOuvert = widget.checkBoxOuvert;
+    checkBoxDispo = widget.checkBoxDispo;
+    checkBoxGratuit = widget.checkBoxGratuit;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +65,7 @@ class _FilterSelectionParkingState extends State<FilterSelectionParking> {
                   },
                 ),
                 CheckboxListTile(
-                  title: const Text('Gratuit'),
+                  title: const Text('Gratuit pour 1h'),
                   value: checkBoxGratuit,
                   onChanged: (bool? value) {
                     setState(() {

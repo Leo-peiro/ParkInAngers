@@ -16,8 +16,12 @@ class ListeParking extends StatefulWidget {
 class _ListeParkingState extends State<ListeParking> {
   final ParkingRepository parkingRepository = ParkingRepository();
   late List<Parking> parkings = []; // Initialisez avec une liste vide
+  late List<Parking> parkingsFiltres = [];
   late double latitude = 0;
   late double longitude = 0;
+  late bool checkBoxOuvert = false;
+  late bool checkBoxDispo = false;
+  late bool checkBoxGratuit = false;
 
   @override
   void initState() {
@@ -33,6 +37,7 @@ class _ListeParkingState extends State<ListeParking> {
       final List<Parking> parkingList = await parkingRepository.fetchAllParking();
       setState(() {
         parkings = trieParkingsParDistance(parkingList);
+        parkingsFiltres = parkings;
       });
 
     } catch (e) {
@@ -62,8 +67,8 @@ class _ListeParkingState extends State<ListeParking> {
   //Trie les parkings en fonction de la distance
   List<Parking> trieParkingsParDistance(List<Parking> parkings) {
     parkings.sort((a, b) {
-      double distanceA = calculeDistance(latitude, longitude, a.latitudeY!.toDouble() ?? 0, a.longitudeX!.toDouble() ?? 0);
-      double distanceB = calculeDistance(latitude, longitude, b.latitudeY!.toDouble() ?? 0, b.longitudeX!.toDouble() ?? 0);
+      double distanceA = calculeDistance(latitude, longitude, a.latitudeY!.toDouble(), a.longitudeX!.toDouble());
+      double distanceB = calculeDistance(latitude, longitude, b.latitudeY!.toDouble(), b.longitudeX!.toDouble());
       return distanceA.compareTo(distanceB);
     });
     return parkings;
@@ -83,31 +88,44 @@ class _ListeParkingState extends State<ListeParking> {
                 final result = await showModalBottomSheet<Map<String, bool>>(
                   context: context,
                   builder: (BuildContext context) {
-                    return const FilterSelectionParking();
+                    return FilterSelectionParking(checkBoxOuvert: checkBoxOuvert, checkBoxDispo: checkBoxDispo, checkBoxGratuit: checkBoxGratuit);
                   },
                 );
                 if (result != null) {
-                  bool checkBoxOuvert = result['checkBoxOuvert'] ?? false;
-                  bool checkBoxDispo = result['checkBoxDispo'] ?? false;
-                  bool checkBoxGratuit = result['checkBoxGratuit'] ?? false;
+                  checkBoxOuvert = result['checkBoxOuvert'] ?? false;
+                  checkBoxDispo = result['checkBoxDispo'] ?? false;
+                  checkBoxGratuit = result['checkBoxGratuit'] ?? false;
 
-                  if(checkBoxDispo){
-                    parkings.map((parking) => parking.npPlacesDisponiblesVoitures == 0? parkings.remove(parking):null);
-                  }
-                  if(checkBoxGratuit){
+                  //Gestion des filtres
+                  parkingsFiltres = parkings.where((parking) {
+                    if (checkBoxDispo && parking.npPlacesDisponiblesVoitures == 0) {
+                      return false;
+                    }
 
-                  }
-                  if(checkBoxOuvert){
-                    parkings.map((parking) =>
-                     parking.horaires?.heureOuverture != null && parking.horaires?.heureFermeture != null ?(
-                        "${DateTime.now().hour}:${DateTime.now().minute}".compareTo(parking.horaires!.heureOuverture!) < 0
-                        || "${DateTime.now().hour}:${DateTime.now().minute}".compareTo(parking.horaires!.heureFermeture!) > 0 ?(
-                      parkings.remove(parking)):null):null);
-                    //Gérer les fermetures exceptions et ouvertures exceptions
-                  }
+                    if (checkBoxGratuit && parking.tarifs?.tarif1H != 0) {
+                      return false;
+                    }
+
+                    //Il faut gérer les fermetures exceptions et ouvertures exceptions aussi
+                    if (checkBoxOuvert && parking.horaires?.heureOuverture != null && parking.horaires?.heureFermeture != null) {
+                      DateTime maintenant = DateTime.now();
+                      List<String> horaireOuverture = parking.horaires!.heureOuverture!.split(":");
+                      DateTime heuresOuverture = DateTime(maintenant.year, maintenant.month, maintenant.day, int.parse(horaireOuverture[0]), int.parse(horaireOuverture[1]));
+                      List<String> horaireFermeture = parking.horaires!.heureFermeture!.split(":");
+                      DateTime heuresFermeture = DateTime(maintenant.year, maintenant.month, maintenant.add(const Duration(days: 1)).day, int.parse(horaireFermeture[0]), int.parse(horaireFermeture[1]));
+                      print(parking.horaires!.horairesException!.split(" ")[0]);
+                      print(maintenant.weekday);
+
+                      if (maintenant.isBefore(heuresOuverture) || maintenant.isAfter(heuresFermeture) ) {
+                        return false;
+                      }
+                    }
+
+                    return true;
+                  }).toList();
 
                   setState(() {
-
+                    build(context);
                   });
                 }
               },
@@ -117,11 +135,11 @@ class _ListeParkingState extends State<ListeParking> {
         ],
       ),
       body: Container(
-        child: parkings.isNotEmpty // Vérifie si la liste n'est pas vide
+        child: parkingsFiltres.isNotEmpty // Vérifie si la liste n'est pas vide
             ? ListView.builder(
-          itemCount: parkings.length,
+          itemCount: parkingsFiltres.length,
           itemBuilder: (context, index) {
-            return buildParkingTile(parkings[index]);
+            return buildParkingTile(parkingsFiltres[index]);
           },
         )
             : const Center(
@@ -137,7 +155,7 @@ class _ListeParkingState extends State<ListeParking> {
         children: [
           Row(
             children: [
-              const Icon(Icons.local_parking_sharp, size: 24), // Ajout de l'icône de voiture
+              const Icon(Icons.local_parking_sharp, size: 24),
               const SizedBox(width: 8),
               Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
             ],
@@ -157,5 +175,26 @@ class _ListeParkingState extends State<ListeParking> {
         );
       },
     );
+  }
+}
+
+String jourEnLettre(int numeroJour) {
+  switch (numeroJour) {
+    case 0:
+      return "LUN";
+    case 1:
+      return "MAR";
+    case 2:
+      return "MER";
+    case 3:
+      return "JEU";
+    case 4:
+      return "VEN";
+    case 5:
+      return "SAM";
+    case 6:
+      return "DIM";
+    default:
+      return "Jour invalide";
   }
 }

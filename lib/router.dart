@@ -10,9 +10,9 @@ class AppRouter{
 
     static final routes = {
       // homePage: (context) => const Home(),
-      navigation: (context) => NavigationMenu(),
-      listeParking: (context) => ListeParking(),
-      infoParking: (context) => InfoParking(),
+      navigation: (context) => const NavigationMenu(),
+      listeParking: (context) => const ListeParking(),
+      infoParking: (context) => const InfoParking(),
 
     };
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/router.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:park_in_angers/ui/screens/liste_parking.dart';
 import 'package:park_in_angers/ui/screens/map_card.dart';
 
@@ -35,7 +34,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    //final ThemeData theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -64,9 +63,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
 
       body: <Widget>[
-        Card(
+        const Card(
           shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
+          margin: EdgeInsets.all(8.0),
           child: SizedBox.expand(
             child: MapCard(),
           ),
