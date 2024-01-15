@@ -49,9 +49,10 @@ class _ListeParkingState extends State<ListeParking> {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
       latitude = position.latitude;
-      print(latitude);
       longitude = position.longitude;
-      print(longitude);
+      setState(() {
+        build(context);
+      });
     } catch (e) {
       print('Erreur lors de la récupération de la position : $e');
     }
