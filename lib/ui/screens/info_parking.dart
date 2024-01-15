@@ -96,13 +96,18 @@ class _InfoParkingState extends State<InfoParking> {
   Future<void> initialisation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favorites = prefs.getStringList('favorites') ?? [];
+    print("--------------------favorite: $favorites");
     for (String name in favorites){
-      if(name == parking.nom){
-        print("entrée setState info parking dans initialisation");
-        setState(() {
-          isFavorite = true;
-        });
-        print("sortie setState info parking dans initialisation");
+
+      print("name $name");
+      if(!isFavorite) {
+        if (name == parking.nom) {
+          print("entrée setState info parking dans initialisation");
+          setState(() {
+            isFavorite = true;
+          });
+          print("sortie setState info parking dans initialisation");
+        }
       }
     }
   }

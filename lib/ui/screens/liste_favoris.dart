@@ -78,7 +78,7 @@ class _ListeFavorisState extends State<ListeFavoris> {
       ),
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/navigation',
+          '/info_parking',
           arguments: parking,
         );
       },
