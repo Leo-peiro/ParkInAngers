@@ -35,6 +35,19 @@ class AffichageInfoParking extends StatelessWidget {
           visible: parking.horaires?.heureOuverture == null && parking.horaires?.heureFermeture == null,
           child: _buildIconText(Icons.event_available_sharp, 'Accessible 24/24'),
         ),
+        Visibility(
+          visible: parking.tarifs != null,
+          child: Column(
+            children : [
+              _buildDivider(),
+              _buildIconText(Icons.price_change_outlined, 'Tarif 1H : ${parking.tarifs?.tarif1H}€'),
+              _buildIconText(Icons.price_change_outlined, 'Tarif 2H : ${parking.tarifs?.tarif2H}€'),
+              _buildIconText(Icons.price_change_outlined, 'Tarif 3H : ${parking.tarifs?.tarif3H}€'),
+              _buildIconText(Icons.price_change_outlined, 'Tarif 4H : ${parking.tarifs?.tarif4H}€'),
+              _buildIconText(Icons.price_change_outlined, 'Tarif 24H : ${parking.tarifs?.tarif24H}€'),
+          ]
+          ),
+        ),
       ],
     );
   }

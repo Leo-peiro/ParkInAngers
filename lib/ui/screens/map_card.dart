@@ -129,11 +129,8 @@ class _MapCardState extends State<MapCard> {
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     const Icon(Icons.vertical_align_bottom_rounded,color: Colors.white),
                     const Padding(padding: EdgeInsets.only(top: 28)),
-                    const Text(
-                      "Plus d'Informations sur le Parking Sélectionné",
-                      style: TextStyle(color: Colors.white,fontSize: 13, fontStyle: FontStyle.italic, decoration: TextDecoration.underline)),
-                    const SizedBox(height: 18),
                     AffichageInfoParking(parking: _selectedParking.parkingInfo, color: Colors.white),
+                    const Padding(padding: EdgeInsets.only(bottom: 10)),
                   ],
                 ),
               ),

@@ -80,10 +80,6 @@ class FilterSelectionParkingState extends State<FilterSelectionParking> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                print("checkBoxOuvert: $checkBoxOuvert");
-                print("checkBoxDispo: $checkBoxDispo");
-                print("checkBoxGratuit: $checkBoxGratuit");
-
                 Navigator.pop(context, {
                   'checkBoxOuvert': checkBoxOuvert,
                   'checkBoxDispo': checkBoxDispo,
