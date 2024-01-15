@@ -12,40 +12,37 @@ class ListeFavoris extends StatefulWidget {
 
 class _ListeFavorisState extends State<ListeFavoris> {
   final ParkingRepository parkingRepository = ParkingRepository();
-  static List<Parking> parkings = [];
-  static List<String> parkingsNames = [];
+   List<Parking> parkings = [];
+   List<String> parkingsNames = [];
 
-  Future<void> loadFavoriteParkings() async {
-    print("loading favorites parkings from favorite widget");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    parkingsNames = prefs.getStringList('favorites') ?? [];
-    print("liste des noms des parkings $parkingsNames");
-  }
 
   Future<void> fetchParkingData(List<String> parkingsNames) async {
     try {
       final List<Parking> parkingList = await parkingRepository.fetchParkingFromNames(parkingsNames);
       if (mounted) {
-        print("entrée setState de liste favoris");
         setState(() {
           parkings = parkingList;
         });
-        print("sortie setState de liste favoris");
       }
     } catch (e) {
       print('Erreur lors de la récupération des données : $e');
     }
   }
-  Future<void> loadAndFetchParkings(List<String> parkingsNames) async {
+  Future<void> loadFavoriteParkings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    parkingsNames = prefs.getStringList('favorites') ?? [];
+  }
+  Future<void> loadAndFetchParkings() async {
     await loadFavoriteParkings();
     await fetchParkingData(parkingsNames);
+    setState(() {});
+
   }
   @override
   void initState() {
     super.initState();
-    // loadFavoriteParkings();
-    // fetchParkingData(parkingsNames);
-    loadAndFetchParkings(parkingsNames);
+    loadAndFetchParkings();
+
   }
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +50,7 @@ class _ListeFavorisState extends State<ListeFavoris> {
         title: const Text('Liste des parkings favoris'),
       ),
       body: Container(
-        child: parkings.isNotEmpty // Vérifiez si la liste n'est pas vide
+        child: parkings.isNotEmpty
             ? ListView.builder(
           itemCount: parkings.length,
           itemBuilder: (context, index) {
@@ -61,8 +58,13 @@ class _ListeFavorisState extends State<ListeFavoris> {
           },
         )
             : const Center(
-          child: CircularProgressIndicator(),
+          child: Text("Pas de parking favori !"),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: refresh,
+        tooltip: 'Actualiser',
+        child: const Icon(Icons.refresh),
       ),
     );
   }
@@ -71,17 +73,21 @@ class _ListeFavorisState extends State<ListeFavoris> {
       title: Text(parking.nom),
       subtitle: Row(
         children: [
-          const Icon(Icons.local_parking_sharp, size: 24), // Ajout de l'icône de voiture
+          const Icon(Icons.local_parking_sharp, size: 24),
           const SizedBox(width: 8),
           Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
         ],
       ),
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/navigation',
+          '/info_parking',
           arguments: parking,
         );
       },
     );
+  }
+  Future<void> refresh() async {
+    setState(() {});
+    loadAndFetchParkings();
   }
 }

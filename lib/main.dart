@@ -46,28 +46,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
   Future<void> loadParkings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favorites = prefs.getStringList('favorites') ?? [];
-
-    // Utiliser la liste des favoris pour extraire les parkings
     favoriteParkings = ListeParking.parkings.where((parking) => favorites.contains(parking.nom)).toList();
-    print("favorites parkings depuis main dart : ");
-    print(favoriteParkings);
     setState(() {});
   }
 
-  // Future<void> loadFavoriteParkings() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   List<String> favorites = prefs.getStringList('favorites') ?? [];
-  //
-  //   // Utilisez la liste complète des parkings pour extraire les favoris
-  //   favoriteParkings = ListeParking.parkings.where((parking) => favorites.contains(parking.nom)).toList();
-  //   print("favorites parkings : ");
-  //   print(favoriteParkings);
-  //   setState(() {});
-  // }
+
 
   @override
   Widget build(BuildContext context) {
-    //final ThemeData theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -104,42 +90,16 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
         ),
         const ListeFavoris(),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Column(
-        //     children: <Widget>[
-        //
-        //       ElevatedButton(onPressed: redirect, child: const Icon(Icons.add_location_alt_outlined, size: 35)),
-        //       ElevatedButton(onPressed: update, child: const Icon(Icons.refresh_sharp, size: 35)),
-        //
-        //       for (var favoriteParking in favoriteParkings)
-        //          Card(
-        //           child: ListTile(
-        //           leading: const Icon(Icons.star),
-        //           title: Text(favoriteParking.nom),
-        //           subtitle: Text('Places disponibles: ${favoriteParking.npPlacesDisponiblesVoitures}'),
-        //           ),
-        //         )
-        //     ],
-        //
-        //   ),
-        // ),
+
         const ListeParking(),
       ][currentPageIndex],
     );
   }
 
   Future<void> update() async {
-    print("updating ...");
     loadParkings();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favorites = prefs.getStringList('favorites') ?? [];
-    // await FavoritesManager.loadFavoriteParkings();
-    // print("favoriteParkings after update: ${FavoritesManager.favoriteParkings}");
-
-    print("datas du sharedpreferencies: ");
-    print(favorites);
-    // setState(() {});
   }
 
   void redirect() {
