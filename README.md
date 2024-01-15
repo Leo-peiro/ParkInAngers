@@ -3,7 +3,8 @@
 
 ## version de Flutter/Dart utilisée
 
-version ?? A COMPLÉTER
+Version de Dart : 3.1.5
+Version de Flutter : 3.13.9
 
 ## fonctionnalités de l’application
 
