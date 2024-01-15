@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
 import 'dart:core';
@@ -8,7 +7,7 @@ import '../../composant/filter_parking.dart';
 
 class ListeParking extends StatefulWidget {
   const ListeParking({Key? key}) : super(key: key);
-
+  static List<Parking> parkings = [];
   @override
   _ListeParkingState createState() => _ListeParkingState();
 }
@@ -32,14 +31,12 @@ class _ListeParkingState extends State<ListeParking> {
 
   // Fonction pour récupérer les données et mettre à jour l'état
   Future<void> fetchParkingData() async {
-
     try {
       final List<Parking> parkingList = await parkingRepository.fetchAllParking();
       setState(() {
         parkings = trieParkingsParDistance(parkingList);
         parkingsFiltres = parkings;
       });
-
     } catch (e) {
       // Gérez les erreurs ici
       print('Erreur lors de la récupération des données : $e');
@@ -148,6 +145,7 @@ class _ListeParkingState extends State<ListeParking> {
       ),
     );
   }
+
   Widget buildParkingTile(Parking parking) {
     return ListTile(
       title: Text(parking.nom),
