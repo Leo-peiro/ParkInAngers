@@ -86,7 +86,6 @@ class FilterSelectionParkingState extends State<FilterSelectionParking> {
                   print("checkBoxDispo: $checkBoxDispo");
                   print("checkBoxGratuit: $checkBoxGratuit");
                 }
-
                 Navigator.pop(context, {
                   'checkBoxOuvert': checkBoxOuvert,
                   'checkBoxDispo': checkBoxDispo,
