@@ -4,6 +4,7 @@
 ## version de Flutter/Dart utilisée
 
 Version de Dart : 3.1.5
+
 Version de Flutter : 3.13.9
 
 ## fonctionnalités de l’application
@@ -19,8 +20,10 @@ En cliquant sur les marqueurs rouges, celui sélectionné passe en bleu et les i
 Dans la page des favoris, l'utilisateur peut voir ses parkings préférés, pour des problèmes de rafraîchissement, un bouton pour actualiser a été ajouté.
 
 Sur la dernière page est visible la liste de tous les parkings d'Angers. Ces parkings sont ordonnés selon la distance qui nous sépare du parking (les plus proches en haut), s'il n'y a pas de problème de localisation.
+
 Il est également possible en appuyant sur le bouton filtrer en haut à droite, de cocher les checkbox pour ne voir que les parkings où il reste de la place, ceux encore ouvert et ceux gratuit pendant une heure.
-Lorsqu'on clique sur un parking dans la liste, il est possible de visualiser les informations de ce dernier et également de l'ajouter au favoris en cliquant sur le bouton favori (cœur).
+
+Lorsque l'on clique sur un parking dans la liste, il est possible de visualiser les informations de ce dernier et également de l'ajouter au favoris en cliquant sur le bouton favori (cœur).
 Une fois ce processus effectué, si l'utilisateur retourne sur la page des favoris, il verra le ou les parkings choisis affichés.
 
 ## API utilisées
