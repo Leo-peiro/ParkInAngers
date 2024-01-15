@@ -58,7 +58,7 @@ class _MapCardState extends State<MapCard> {
   @override
   Widget build(BuildContext context) {
     const double panelMinSize = 70.0;
-    final double panelMaxSize = MediaQuery.of(context).size.height / 2;
+    final double panelMaxSize = MediaQuery.of(context).size.height / 1.5;
 
     return Scaffold(
       backgroundColor: Colors.black,
