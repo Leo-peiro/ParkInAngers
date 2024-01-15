@@ -1,42 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ListeParking extends StatefulWidget {
-  const ListeParking({Key? key}) : super(key: key);
+class ListeFavoris extends StatefulWidget {
+  const ListeFavoris({super.key});
   static List<Parking> parkings = [];
   @override
-  _ListeParkingState createState() => _ListeParkingState();
+  State<ListeFavoris> createState() => _ListeFavorisState();
 }
 
-class _ListeParkingState extends State<ListeParking> {
+class _ListeFavorisState extends State<ListeFavoris> {
   final ParkingRepository parkingRepository = ParkingRepository();
-  late List<Parking> parkings = []; // Initialisez avec une liste vide
+  static List<Parking> parkings = [];
+  static List<String> parkingsNames = [];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchParkingData();
+  Future<void> loadFavoriteParkings() async {
+    print("loading favorites parkings from favorite widget");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    parkingsNames = prefs.getStringList('favorites') ?? [];
+    print("liste des noms des parkings $parkingsNames");
   }
 
-  // Fonction pour récupérer les données et mettre à jour l'état
-  Future<void> fetchParkingData() async {
+  Future<void> fetchParkingData(List<String> parkingsNames) async {
     try {
-      final List<Parking> parkingList = await parkingRepository.fetchAllParking();
+      final List<Parking> parkingList = await parkingRepository.fetchParkingFromNames(parkingsNames);
       setState(() {
         parkings = parkingList;
       });
     } catch (e) {
-      // Gérez les erreurs ici
       print('Erreur lors de la récupération des données : $e');
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadFavoriteParkings();
+    fetchParkingData(parkingsNames);
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liste des parkings'),
+        title: const Text('Liste des parkings favoris'),
       ),
       body: Container(
         child: parkings.isNotEmpty // Vérifiez si la liste n'est pas vide
@@ -52,7 +58,6 @@ class _ListeParkingState extends State<ListeParking> {
       ),
     );
   }
-
   Widget buildParkingTile(Parking parking) {
     return ListTile(
       title: Text(parking.nom),
