@@ -123,8 +123,10 @@ class _MapCardState extends State<MapCard> {
                   children: [
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     const Icon(Icons.vertical_align_bottom_rounded,color: Colors.white),
-                    const Padding(padding: EdgeInsets.only(top: 28)),
-                    AffichageInfoParking(parking: _selectedParking.parkingInfo, color: Colors.white),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 28, left: 10),
+                      child : AffichageInfoParking(parking: _selectedParking.parkingInfo, color: Colors.white),
+                    ),
                     const Padding(padding: EdgeInsets.only(bottom: 10)),
                   ],
                 ),

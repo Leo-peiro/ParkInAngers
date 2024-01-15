@@ -38,8 +38,6 @@ class _ListeFavorisState extends State<ListeFavoris> {
   Future<void> loadAndFetchParkings() async {
     await loadFavoriteParkings();
     await fetchParkingData(parkingsNames);
-    setState(() {});
-
   }
   @override
   void initState() {

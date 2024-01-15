@@ -28,13 +28,16 @@ class _InfoParkingState extends State<InfoParking> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AffichageInfoParking(parking: parking),
-            ElevatedButton(
-              onPressed: () {
-                toggleFavorite();
-              },
-              child: isFavorite
-                  ? const Icon(Icons.favorite, size: 35)
-                  : const Icon(Icons.favorite_border, size: 35),
+            const Padding( padding:EdgeInsets.all(16.0),),
+            Center(
+              child : ElevatedButton(
+                onPressed: () {
+                  toggleFavorite();
+                },
+                child: isFavorite
+                    ? const Icon(Icons.favorite, size: 35)
+                    : const Icon(Icons.favorite_border, size: 35),
+            ),
             ),
           ],
         ),
