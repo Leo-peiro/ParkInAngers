@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/gestures.dart';
 import 'package:park_in_angers/models/horaires.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'dart:convert';

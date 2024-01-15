@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
@@ -25,7 +26,9 @@ class _ListeFavorisState extends State<ListeFavoris> {
         });
       }
     } catch (e) {
-      print('Erreur lors de la récupération des données : $e');
+      if (kDebugMode) {
+        print('Erreur lors de la récupération des données : $e');
+      }
     }
   }
   Future<void> loadFavoriteParkings() async {
@@ -44,6 +47,7 @@ class _ListeFavorisState extends State<ListeFavoris> {
     loadAndFetchParkings();
 
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

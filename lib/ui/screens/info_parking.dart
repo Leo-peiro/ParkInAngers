@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/models/parking.dart';
-import 'package:park_in_angers/ui/screens/liste_favoris.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:park_in_angers/composant/affichage_info_parking.dart';
 

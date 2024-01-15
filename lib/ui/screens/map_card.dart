@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -5,10 +6,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:park_in_angers/models/horaires.dart';
 import 'package:park_in_angers/models/tarifs.dart';
 import 'package:we_slide/we_slide.dart';
-
-import '../../composant/affichage_info_parking.dart';
-import '../../models/parking.dart';
-import '../../repositories/parking_repository.dart';
+import 'package:park_in_angers/composant/affichage_info_parking.dart';
+import 'package:park_in_angers/models/parking.dart';
+import 'package:park_in_angers/repositories/parking_repository.dart';
 
 class MapCard extends StatefulWidget {
   const MapCard({super.key});
@@ -44,7 +44,9 @@ class _MapCardState extends State<MapCard> {
         parkings = parkingList.map((parking) => ParkingMarker(parking)).toList();
       });
     } catch (e) {
-      print('Erreur lors de la récupération des données : $e');
+      if (kDebugMode) {
+        print('Erreur lors de la récupération des données : $e');
+      }
     }
   }
 

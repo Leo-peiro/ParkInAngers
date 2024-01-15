@@ -96,12 +96,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
     );
   }
 
-  Future<void> update() async {
-    loadParkings();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favorites = prefs.getStringList('favorites') ?? [];
-  }
-
   void redirect() {
     setState(() {
       currentPageIndex = 2;

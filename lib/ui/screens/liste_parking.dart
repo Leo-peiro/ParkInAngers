@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
 import 'dart:core';
-
-import '../../composant/filter_parking.dart';
+import 'package:park_in_angers/composant/filter_parking.dart';
 
 class ListeParking extends StatefulWidget {
   const ListeParking({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class ListeParking extends StatefulWidget {
 
 class _ListeParkingState extends State<ListeParking> {
   final ParkingRepository parkingRepository = ParkingRepository();
-  late List<Parking> parkings = []; // Initialisez avec une liste vide
+  late List<Parking> parkings = [];
   late List<Parking> parkingsFiltres = [];
   late double latitude = 0;
   late double longitude = 0;
@@ -39,8 +39,9 @@ class _ListeParkingState extends State<ListeParking> {
         parkingsFiltres = parkings;
       });
     } catch (e) {
-      // Gérez les erreurs ici
-      print('Erreur lors de la récupération des données : $e');
+      if (kDebugMode) {
+        print('Erreur lors de la récupération des données : $e');
+      }
     }
   }
 
@@ -54,7 +55,9 @@ class _ListeParkingState extends State<ListeParking> {
         build(context);
       });
     } catch (e) {
-      print('Erreur lors de la récupération de la position : $e');
+      if (kDebugMode) {
+        print('Erreur lors de la récupération de la position : $e');
+      }
     }
   }
 

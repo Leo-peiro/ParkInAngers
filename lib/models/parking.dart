@@ -33,7 +33,6 @@ class Parking {
       );
 
   factory Parking.fromGeoJson(Map<String, dynamic> json, String nom, int disponible, Horaires horaires, Tarifs tarifs) {
-    final properties = json['properties'];
     final npPlacesDisponiblesVoitures = disponible;
     final npPlaceVoituresElectrique = json['nb_voitures_electriques'];
     final nbPlacePMR = json['nb_pmr'];

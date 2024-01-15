@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class FilterSelectionParking extends StatefulWidget {
@@ -80,9 +81,11 @@ class FilterSelectionParkingState extends State<FilterSelectionParking> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                print("checkBoxOuvert: $checkBoxOuvert");
-                print("checkBoxDispo: $checkBoxDispo");
-                print("checkBoxGratuit: $checkBoxGratuit");
+                if (kDebugMode) {
+                  print("checkBoxOuvert: $checkBoxOuvert");
+                  print("checkBoxDispo: $checkBoxDispo");
+                  print("checkBoxGratuit: $checkBoxGratuit");
+                }
 
                 Navigator.pop(context, {
                   'checkBoxOuvert': checkBoxOuvert,

@@ -8,8 +8,6 @@ class Tarifs{
   Tarifs(this.tarif1H, this.tarif2H, this.tarif3H, this.tarif4H, this.tarif24H);
 
   factory Tarifs.fromJson(Map<String, dynamic> json) {
-    final properties = json['properties'];
-
     return Tarifs(
       json['tarif_1h'],
       json['tarif_2h'],

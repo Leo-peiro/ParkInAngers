@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/parking.dart';
+import 'package:park_in_angers/models/parking.dart';
 
 
 class AffichageInfoParking extends StatelessWidget {
