@@ -12,14 +12,15 @@ L'objectif de notre application est de permettre à un utilisateur de localiser 
 
 Notre application est basée sur un menu à trois boutons, le premier renvoie sur la page de garde, la carte. Le second affiche les parkings enregistrés comme favoris. Enfin, le troisième affiche la liste de tous les parkings d'Angers.
 
-Lorsque l'utilisateur lance l'application, il se voit la carte s'afficher, il est ensuite géolocalisé et placé sur la carte. La map indique les différents parking de la ville d'Angers.
+Lorsque l'utilisateur lance l'application, il voit la carte s'afficher, il est ensuite géolocalisé et placé sur la carte. La map indique les différents parking de la ville d'Angers.
 
-En cliquant sur les marqueurs rouges, les informations principales du parking choisi s'affichent dans un menu que doit dérouler l'utilisateur.
+En cliquant sur les marqueurs rouges, celui sélectionné passe en bleu et les informations principales du parking choisi s'affichent dans un menu que doit dérouler vers le haut l'utilisateur.
 
-Dans la page des favoris, l'utilisateur peut voir ses parkings préférés ou alors, s'il n'y en a pas, des boutons sont disponibles pour actualiser ou ajouter un nouveau parking à cette liste.
+Dans la page des favoris, l'utilisateur peut voir ses parkings préférés, pour des problèmes de rafraîchissement, un bouton pour actualiser a été ajouté.
 
-En cliquant sur le bouton pour ajouter un parking au favoris, l'utilisateur est renvoyé vers la liste de tous les parkings d'Angers, ensuite, il doit cliquer sur un parking, puis cliquer sur le bouton favori (cœur).
-
+Sur la dernière page est visible la liste de tous les parkings d'Angers. Ces parkings sont ordonnés selon la distance qui nous sépare du parking (les plus proches en haut), s'il n'y a pas de problème de localisation.
+Il est également possible en appuyant sur le bouton filtrer en haut à droite, de cocher les checkbox pour ne voir que les parkings où il reste de la place, ceux encore ouvert et ceux gratuit pendant une heure.
+Lorsqu'on clique sur un parking dans la liste, il est possible de visualiser les informations de ce dernier et également de l'ajouter au favoris en cliquant sur le bouton favori (cœur).
 Une fois ce processus effectué, si l'utilisateur retourne sur la page des favoris, il verra le ou les parkings choisis affichés.
 
 ## API utilisées
