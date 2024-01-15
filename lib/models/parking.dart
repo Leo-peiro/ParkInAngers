@@ -54,28 +54,13 @@ class Parking {
   }
 
   factory Parking.fromJson(Map<String, dynamic> json) { // le fromJson a une forme particulière car il est appelé après la première requête API, nous n'avons donc pas toutes les informations nécessaires
-    final properties = json['properties'];
     final String nom = json['nom'];
     final int npPlacesDisponiblesVoitures = json['disponible'];
-    // final int npPlaceVoituresElectrique = properties['nb_voitures_electriques'];
-    // final int nbPlacePMR = properties['nb_pmr'];
-    // final int nbPlaceVelo = properties['nb_velo'];
-    // final num latitudeY = properties['ylat'];
-    // final num longitudeX = properties['xlong'];
 
-    // final Tarifs tarifs = Tarifs.fromJson(properties);
-    // final Horaires horaires = Horaires.fromJson(properties);
 
     return Parking.api1Constructeur(
       nom,
       npPlacesDisponiblesVoitures
-      // npPlaceVoituresElectrique,
-      // nbPlacePMR,
-      // nbPlaceVelo,
-      // horaires,
-      // tarifs,
-      // latitudeY,
-      // longitudeX,
     );
   }
 }

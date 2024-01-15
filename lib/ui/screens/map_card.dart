@@ -29,12 +29,6 @@ class _MapCardState extends State<MapCard> {
 
   late ParkingMarker _selectedParking = ParkingMarker(Parking("", 0, 0, 0, 0, Horaires(true, "","","",""),Tarifs(0,0,0,0,0),0, 0,""));
 
-  //void setFavoriteParking(ParkingMarker favoriteParking) {
-   // setState(() {
-   //   _favoriteParking = favoriteParking;
-   // });
-  //}
-
   void setSelectedParking(ParkingMarker selectedParking) {
      setState(() {
        _selectedParking = selectedParking;
@@ -50,7 +44,6 @@ class _MapCardState extends State<MapCard> {
         parkings = parkingList.map((parking) => ParkingMarker(parking)).toList();
       });
     } catch (e) {
-      // Gérez les erreurs ici
       print('Erreur lors de la récupération des données : $e');
     }
   }
