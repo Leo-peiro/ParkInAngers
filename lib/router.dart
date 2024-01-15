@@ -14,6 +14,5 @@ class AppRouter{
       listeParking: (context) => const ListeParking(),
       listeParkingsFavoris: (context) => const ListeFavoris(),
       infoParking: (context) => const InfoParking(),
-
     };
 }

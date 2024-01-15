@@ -58,7 +58,7 @@ class _ListeFavorisState extends State<ListeFavoris> {
           },
         )
             : const Center(
-          child: CircularProgressIndicator(),
+          child: Text("Pas de parking favori !"),
         ),
       ),
       floatingActionButton: FloatingActionButton(
