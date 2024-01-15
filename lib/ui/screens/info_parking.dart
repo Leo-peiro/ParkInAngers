@@ -19,7 +19,7 @@ class _InfoParkingState extends State<InfoParking> {
   Widget build(BuildContext context) {
     // Récupérez les données du parking depuis les arguments
     parking = ModalRoute.of(context)!.settings.arguments as Parking;
-
+    initialisation();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Informations sur le parking'),
@@ -92,9 +92,43 @@ class _InfoParkingState extends State<InfoParking> {
       ),
     );
   }
+
+  Future<void> initialisation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favorites = prefs.getStringList('favorites') ?? [];
+    for (String name in favorites){
+      if(name == parking.nom){
+        print("entrée setState info parking dans initialisation");
+        setState(() {
+          isFavorite = true;
+        });
+        print("sortie setState info parking dans initialisation");
+      }
+    }
+  }
   Future<void> toggleFavorite() async {
-    await FavoritesManager.toggleFavorite(parking);
-    await FavoritesManager.loadFavoriteParkings();
+    await toggleFavoriteP(parking);
+    // await FavoritesManager.loadFavoriteParkings();
+  }
+
+  Future<void> toggleFavoriteP(Parking parking) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favorites = prefs.getStringList('favorites') ?? [];
+    print("favoris parkings depuis gestionnaire favories 1 : ");
+    print(favorites);
+    if (favorites.contains(parking.nom)) {
+      favorites.remove(parking.nom);
+    } else {
+      favorites.add(parking.nom);
+    }
+    print("entrée setState de de info parking de toggleFavoriteP");
+    setState(() {
+          isFavorite = !isFavorite;
+        });
+    print("sortie setState de de info parking de toggleFavoriteP");
+    print("favoris parkings depuis gestionnaire favories 2 : ");
+    print(favorites);
+    await prefs.setStringList('favorites', favorites);
   }
   // Future<void> toggleFavorite() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();

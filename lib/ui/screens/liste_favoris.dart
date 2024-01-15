@@ -25,19 +25,27 @@ class _ListeFavorisState extends State<ListeFavoris> {
   Future<void> fetchParkingData(List<String> parkingsNames) async {
     try {
       final List<Parking> parkingList = await parkingRepository.fetchParkingFromNames(parkingsNames);
-      setState(() {
-        parkings = parkingList;
-      });
+      if (mounted) {
+        print("entrée setState de liste favoris");
+        setState(() {
+          parkings = parkingList;
+        });
+        print("sortie setState de liste favoris");
+      }
     } catch (e) {
       print('Erreur lors de la récupération des données : $e');
     }
   }
-
+  Future<void> loadAndFetchParkings(List<String> parkingsNames) async {
+    await loadFavoriteParkings();
+    await fetchParkingData(parkingsNames);
+  }
   @override
   void initState() {
     super.initState();
-    loadFavoriteParkings();
-    fetchParkingData(parkingsNames);
+    // loadFavoriteParkings();
+    // fetchParkingData(parkingsNames);
+    loadAndFetchParkings(parkingsNames);
   }
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,14 +76,11 @@ class _ListeFavorisState extends State<ListeFavoris> {
           Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
         ],
       ),
-      // Ajoutez d'autres widgets pour afficher d'autres informations du parking
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/info_parking',
+          '/navigation',
           arguments: parking,
         );
-
-        // Ajoutez ici le code à exécuter lorsque l'utilisateur appuie sur la tuile
       },
     );
   }

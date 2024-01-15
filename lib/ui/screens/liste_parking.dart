@@ -11,7 +11,7 @@ class ListeParking extends StatefulWidget {
 
 class _ListeParkingState extends State<ListeParking> {
   final ParkingRepository parkingRepository = ParkingRepository();
-  late List<Parking> parkings = []; // Initialisez avec une liste vide
+  late List<Parking> parkings = [];
 
   @override
   void initState() {
@@ -19,15 +19,15 @@ class _ListeParkingState extends State<ListeParking> {
     fetchParkingData();
   }
 
-  // Fonction pour récupérer les données et mettre à jour l'état
   Future<void> fetchParkingData() async {
     try {
       final List<Parking> parkingList = await parkingRepository.fetchAllParking();
+      print("entrée setState de liste parking");
       setState(() {
         parkings = parkingList;
       });
+      print("sortie setState de liste parking");
     } catch (e) {
-      // Gérez les erreurs ici
       print('Erreur lors de la récupération des données : $e');
     }
   }
@@ -39,7 +39,7 @@ class _ListeParkingState extends State<ListeParking> {
         title: const Text('Liste des parkings'),
       ),
       body: Container(
-        child: parkings.isNotEmpty // Vérifiez si la liste n'est pas vide
+        child: parkings.isNotEmpty
             ? ListView.builder(
           itemCount: parkings.length,
           itemBuilder: (context, index) {
@@ -63,14 +63,12 @@ class _ListeParkingState extends State<ListeParking> {
           Text('Places disponibles: ${parking.npPlacesDisponiblesVoitures}'),
         ],
       ),
-      // Ajoutez d'autres widgets pour afficher d'autres informations du parking
       onTap: () {
         Navigator.of(context).pushNamed(
           '/info_parking',
           arguments: parking,
         );
 
-        // Ajoutez ici le code à exécuter lorsque l'utilisateur appuie sur la tuile
       },
     );
   }

@@ -135,8 +135,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
     loadParkings();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favorites = prefs.getStringList('favorites') ?? [];
-    await FavoritesManager.loadFavoriteParkings();
-    print("favoriteParkings after update: ${FavoritesManager.favoriteParkings}");
+    // await FavoritesManager.loadFavoriteParkings();
+    // print("favoriteParkings after update: ${FavoritesManager.favoriteParkings}");
 
     print("datas du sharedpreferencies: ");
     print(favorites);
