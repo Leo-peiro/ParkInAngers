@@ -1,5 +1,7 @@
 # ParkInAngers
+![Logo de ParkInAngers](Logo.png)
 
+(image sur application Android pour lancer l'application)
 
 ## version de Flutter/Dart utilisée
 
