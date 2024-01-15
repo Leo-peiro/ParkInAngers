@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/repositories/parking_repository.dart';
 import 'dart:core';

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:park_in_angers/router.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:park_in_angers/ui/screens/liste_favoris.dart';
 import 'package:park_in_angers/ui/screens/liste_parking.dart';
 import 'package:park_in_angers/ui/screens/map_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'models/parking.dart';
 
 void main() => runApp(const MyApp());
 
@@ -40,7 +41,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
   void initState() {
     super.initState();
     loadParkings();
-    print("initState");
   }
 
   Future<void> loadParkings() async {
