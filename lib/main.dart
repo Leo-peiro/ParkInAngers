@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:park_in_angers/gestionnaire_favoris.dart';
-import 'package:park_in_angers/models/parking.dart';
 import 'package:park_in_angers/router.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:park_in_angers/ui/screens/liste_favoris.dart';
 import 'package:park_in_angers/ui/screens/liste_parking.dart';
 import 'package:park_in_angers/ui/screens/map_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'models/parking.dart';
 
 void main() => runApp(const MyApp());
 
@@ -42,7 +41,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
   void initState() {
     super.initState();
     loadParkings();
-    print("initState");
   }
 
   Future<void> loadParkings() async {
@@ -69,7 +67,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    //final ThemeData theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -96,10 +94,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
         ],
       ),
 
+
       body: <Widget>[
-        Card(
+        const Card(
           shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
+          margin: EdgeInsets.all(8.0),
           child: SizedBox.expand(
             child: MapCard(),
           ),
@@ -148,84 +147,4 @@ class _NavigationMenuState extends State<NavigationMenu> {
       currentPageIndex = 2;
     });
   }
-
-
 }
-
-// class _NavigationMenuState extends State<NavigationMenu> {
-//   int currentPageIndex = 0;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final ThemeData theme = Theme.of(context);
-//     return Scaffold(
-//       bottomNavigationBar: NavigationBar(
-//         onDestinationSelected: (int index) {
-//           setState(() {
-//             currentPageIndex = index;
-//           });
-//         },
-//         selectedIndex: currentPageIndex,
-//         destinations: const <Widget>[
-//           NavigationDestination(
-//             selectedIcon: Icon(Icons.public, color: Colors.lightBlueAccent,),
-//             icon: Icon(Icons.public),
-//             label: 'Carte',
-//           ),
-//           NavigationDestination(
-//             selectedIcon: Icon(Icons.star, color: Colors.amberAccent,),
-//             icon: Icon(Icons.star),
-//             label: 'Parking favori',
-//           ),
-//           NavigationDestination(
-//             icon: Icon(Icons.list),
-//             label: 'Liste parkings',
-//           ),
-//         ],
-//       ),
-//
-//
-//       body: <Widget>[
-//         Card(
-//           shadowColor: Colors.transparent,
-//           margin: const EdgeInsets.all(8.0),
-//           child: SizedBox.expand(
-//             child: MapCard(),
-//           ),
-//         ),
-//
-//         Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Column(
-//             children: <Widget>[
-//               //zone pour afficher les parkings favoris
-//               const Card(
-//                 child: ListTile(
-//                   leading: Icon(Icons.notifications_sharp),
-//                   title: Text('Notification 1'),
-//                   subtitle: Text('Afficher les parking ici, sinon afficher un bouton avec un + qui redirige vers la liste de parking'),
-//                 ),
-//               ),
-//               const Card(
-//                 child: ListTile(
-//                   leading: Icon(Icons.notifications_sharp),
-//                   title: Text('Notification 2'),
-//                   subtitle: Text('This is a notification'),
-//                 ),
-//               ),
-//               ElevatedButton(onPressed: redirect, child: const Icon(Icons.add_location_alt_outlined, size: 35)),
-//
-//             ],
-//           ),
-//         ),
-//         const ListeParking(),
-//       ][currentPageIndex],
-//     );
-//   }
-//
-//   void redirect() {
-//     setState(() {
-//       currentPageIndex = 2;
-//     });
-//   }
-// }
